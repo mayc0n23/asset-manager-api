@@ -35,7 +35,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		clients.inMemory()
 			.withClient("asset-manager-app")
 			.secret(passwordEncoder.encode("manager-web-system-ifpb"))
-			.authorizedGrantTypes("password", "refresh_token")
+			.authorizedGrantTypes("password")
 			.scopes("WRITE", "READ");
 	}
 	
