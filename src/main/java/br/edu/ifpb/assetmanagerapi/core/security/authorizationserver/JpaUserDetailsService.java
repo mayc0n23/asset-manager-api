@@ -24,7 +24,6 @@ public class JpaUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Admin admin = adminRepository.findByLogin(username)
 				.orElseThrow(() -> new UsernameNotFoundException("Admin não encontrado"));
-		System.out.println("achei o admin");
 		return new User(admin.getLogin(), admin.getPassword(), Collections.emptyList());
 	}
 
