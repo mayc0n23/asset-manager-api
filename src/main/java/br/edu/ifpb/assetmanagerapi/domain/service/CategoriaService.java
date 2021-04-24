@@ -38,5 +38,9 @@ public class CategoriaService {
 	public List<Categoria> listar() {
 		return categoriaRepository.findAll();
 	}
-	
+
+	public void deletar(Categoria categoria) {
+		categoriaRepository.delete(categoria);
+	}
+
 }
