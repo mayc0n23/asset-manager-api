@@ -12,13 +12,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class EquipamentoInputDTO {
 
+	@NotBlank
     private String descricao;
 
     private String sala;
 
     private String bloco;
 
-    @NotBlank
+    @NotNull
     private Integer numero;
 
     @NotBlank

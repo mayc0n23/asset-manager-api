@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface EquipamentoRepository extends CustomJpaRepository<Equipamento, Long>{
+public interface EquipamentoRepository extends CustomJpaRepository<Equipamento, Long> {
+	
+	Optional<Equipamento> findByDescricao(String descricao);
+	
 }

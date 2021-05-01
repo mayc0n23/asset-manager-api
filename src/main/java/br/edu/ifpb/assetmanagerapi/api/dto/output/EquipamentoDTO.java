@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 public class EquipamentoDTO {
 
-    private Long Id;
+    private Long id;
 
     private String descricao;
 
@@ -20,6 +20,8 @@ public class EquipamentoDTO {
     private Integer numero;
 
     private String numeroSerie;
+    
+    private String nomeArquivo;
 
     private Rede rede;
 

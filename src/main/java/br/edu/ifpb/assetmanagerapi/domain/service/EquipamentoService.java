@@ -1,23 +1,37 @@
 package br.edu.ifpb.assetmanagerapi.domain.service;
 
 import br.edu.ifpb.assetmanagerapi.domain.exception.EquipamentoNaoEncontradoException;
+import br.edu.ifpb.assetmanagerapi.domain.exception.NegocioException;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
 import br.edu.ifpb.assetmanagerapi.domain.repository.EquipamentoRepository;
+import br.edu.ifpb.assetmanagerapi.domain.service.FileStorageService.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipamentoService {
 
     @Autowired
     private EquipamentoRepository equipamentoRepository;
+    
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @Transactional
     public Equipamento salvar(Equipamento equipamento) {
         equipamentoRepository.detach(equipamento);
+        
+        Optional<Equipamento> equipamentoExistente = equipamentoRepository.findByDescricao(equipamento.getDescricao());
+        if (equipamentoExistente.isPresent() && equipamentoExistente.get().equals(equipamento)) {
+        	throw new NegocioException(String.format("O equipamento de descrição '%s' já existe.", equipamento.getDescricao()));
+        }
+        
         return equipamentoRepository.save(equipamento);
     }
 
@@ -30,7 +44,38 @@ public class EquipamentoService {
         return equipamentoRepository.findAll();
     }
 
-    public void deletar(Equipamento categoria) {
-        equipamentoRepository.delete(categoria);
+    public void deletar(Long equipamentoId) {
+    	Equipamento equipamento = buscar(equipamentoId);
+        equipamentoRepository.delete(equipamento);
     }
+    
+    @Transactional
+    public void inserirArquivo(Long equipamentoId, File file) {
+    	Equipamento equipamento = buscar(equipamentoId);
+    	fileStorageService.armazenar(file);
+    	equipamento.setNomeArquivo(file.getNomeArquivo());
+    	equipamentoRepository.save(equipamento);
+    }
+    
+    @Transactional
+    public void editarArquivo(Long equipamentoId, File file) {
+    	Equipamento equipamento = buscar(equipamentoId);
+    	fileStorageService.substituir(equipamento.getNomeArquivo(), file);
+    	equipamento.setNomeArquivo(file.getNomeArquivo());
+    	equipamentoRepository.save(equipamento);
+    }
+    
+    @Transactional
+    public void removerArquivo(Long equipamentoId) {
+    	Equipamento equipamento = buscar(equipamentoId);
+    	fileStorageService.remover(equipamento.getNomeArquivo());
+    	equipamento.setNomeArquivo(null);
+    	equipamentoRepository.save(equipamento);
+    }
+    
+    public InputStream recuperarArquivo(Long equipamentoId) {
+    	Equipamento equipamento = buscar(equipamentoId);
+    	return fileStorageService.recuperar(equipamento.getNomeArquivo());
+    }
+    
 }

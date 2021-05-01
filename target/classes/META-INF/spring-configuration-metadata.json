@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "asset-manager.storage",
+      "type": "br.edu.ifpb.assetmanagerapi.core.storage.StorageProperties",
+      "sourceType": "br.edu.ifpb.assetmanagerapi.core.storage.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "asset-manager.storage.diretorio-fotos",
+      "type": "java.nio.file.Path",
+      "sourceType": "br.edu.ifpb.assetmanagerapi.core.storage.StorageProperties"
+    }
+  ],
+  "hints": []
+}

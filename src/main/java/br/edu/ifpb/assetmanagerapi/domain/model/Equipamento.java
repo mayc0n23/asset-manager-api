@@ -38,4 +38,6 @@ public class Equipamento {
 
     @ManyToOne(targetEntity = Categoria.class, fetch = FetchType.LAZY, optional = false)
     private Categoria categoria;
+    
+    private String nomeArquivo;
 }

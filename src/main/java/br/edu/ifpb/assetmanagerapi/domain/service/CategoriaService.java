@@ -39,7 +39,8 @@ public class CategoriaService {
 		return categoriaRepository.findAll();
 	}
 
-	public void deletar(Categoria categoria) {
+	public void deletar(Long categoriaId) {
+		Categoria categoria = buscar(categoriaId);
 		categoriaRepository.delete(categoria);
 	}
 

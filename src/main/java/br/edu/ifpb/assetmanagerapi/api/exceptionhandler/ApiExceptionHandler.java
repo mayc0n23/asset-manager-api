@@ -30,12 +30,21 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
 import br.edu.ifpb.assetmanagerapi.domain.exception.EntidadeNaoEncontradaException;
 import br.edu.ifpb.assetmanagerapi.domain.exception.NegocioException;
+import br.edu.ifpb.assetmanagerapi.infrastructure.storage.StorageException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@ExceptionHandler(StorageException.class)
+	public ResponseEntity<?> handleStorageException(StorageException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		String detail = ex.getMessage();
+		Problem problem = createProblemBuilder(status, detail).build();
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
 	
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {

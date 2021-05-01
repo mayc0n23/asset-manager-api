@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.assetmanagerapi.api.assembler.CategoriaAssembler;
@@ -54,7 +56,7 @@ public class CategoriaController {
 		return categoriaAssembler.toDTO(categoriaService.salvar(categoriaDisassembler.toDomainObject(categoriaInput)));
 	}
 	
-	@PreAuthorize("isAuthenticated")
+	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/{categoriaId}")
 	public CategoriaDTO editar(@PathVariable Long categoriaId, @RequestBody @Valid CategoriaInputDTO categoriaInput) {
 		Categoria categoriaAtual = categoriaService.buscar(categoriaId);
@@ -62,12 +64,11 @@ public class CategoriaController {
 		return categoriaAssembler.toDTO(categoriaService.salvar(categoriaAtual));
 	}
 	
-	@PreAuthorize("isAuthenticated")
+	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/{categoriaId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletar(@PathVariable Long categoriaId) {
-		Categoria categoria = categoriaService.buscar(categoriaId);
-		if (categoria == null) return;
-		categoriaService.deletar(categoria);
+		categoriaService.deletar(categoriaId);
 	}
 	
 }
