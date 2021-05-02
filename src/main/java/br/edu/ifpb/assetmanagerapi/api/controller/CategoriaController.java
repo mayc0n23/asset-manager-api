@@ -61,6 +61,7 @@ public class CategoriaController {
 	public CategoriaDTO editar(@PathVariable Long categoriaId, @RequestBody @Valid CategoriaInputDTO categoriaInput) {
 		Categoria categoriaAtual = categoriaService.buscar(categoriaId);
 		categoriaDisassembler.copyToDomainObject(categoriaInput, categoriaAtual);
+		categoriaAtual.setId(categoriaId);
 		return categoriaAssembler.toDTO(categoriaService.salvar(categoriaAtual));
 	}
 	

@@ -63,6 +63,7 @@ public class EquipamentoController {
     public EquipamentoDTO editar(@PathVariable Long equipamentoId, @RequestBody @Valid EquipamentoInputDTO equipamentoInput) {
         Equipamento equipamentoAtual = equipamentoService.buscar(equipamentoId);
         equipamentoDisassembler.copyToDomainObject(equipamentoInput, equipamentoAtual);
+        equipamentoAtual.setId(equipamentoId);
         return equipamentoAssembler.toDTO(equipamentoService.salvar(equipamentoAtual));
     }
 
