@@ -1,6 +1,7 @@
 package br.edu.ifpb.assetmanagerapi.api.disassembler;
 
 import br.edu.ifpb.assetmanagerapi.api.dto.input.EquipamentoInputDTO;
+import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class EquipamentoDisassembler {
     }
 
     public void copyToDomainObject(EquipamentoInputDTO equipamentoInput, Equipamento equipamento) {
+    	equipamento.setCategoria(new Categoria());
         modelMapper.map(equipamentoInput, equipamento);
     }
 }
