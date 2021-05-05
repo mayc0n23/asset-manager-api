@@ -54,6 +54,7 @@ public class EquipamentoController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public EquipamentoDTO cadastrar(@RequestBody @Valid EquipamentoInputDTO equipamentoInput) {
         return equipamentoAssembler.toDTO(equipamentoService.salvar(equipamentoDisassembler.toDomainObject(equipamentoInput)));
     }
@@ -76,6 +77,7 @@ public class EquipamentoController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{equipamentoId}/file")
+    @ResponseStatus(HttpStatus.CREATED)
     public void inserirArquivo(@PathVariable Long equipamentoId, MultipartFile arquivo) {
     	try {
     		InputStream inputStream = arquivo.getInputStream();

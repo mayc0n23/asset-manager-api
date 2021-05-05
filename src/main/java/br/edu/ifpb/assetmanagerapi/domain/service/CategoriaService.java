@@ -23,7 +23,7 @@ public class CategoriaService {
 		categoriaRepository.detach(categoria);
 		
 		Optional<Categoria> categoriaExistente = categoriaRepository.findByNome(categoria.getNome());
-		if (categoriaExistente.isPresent() && categoriaExistente.get().equals(categoria)) {
+		if (categoriaExistente.isPresent() && !categoriaExistente.get().equals(categoria)) {
 			throw new NegocioException(String.format("A categoria de nome '%s' já existe", categoria.getNome()));
 		}
 		

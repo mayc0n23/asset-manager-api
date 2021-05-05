@@ -23,7 +23,6 @@ public class LocalFileStorageService implements FileStorageService {
 
 	@Override
 	public void armazenar(File file) {
-		System.out.println("to no metodo de armazenar");
 		try {
 			Path arquivoPath = Path.of("C:/Users/mayco/Desktop/files", file.getNomeArquivo());
 			FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(arquivoPath));

@@ -26,12 +26,10 @@ public class EquipamentoService {
     @Transactional
     public Equipamento salvar(Equipamento equipamento) {
         equipamentoRepository.detach(equipamento);
-        
         Optional<Equipamento> equipamentoExistente = equipamentoRepository.findByDescricao(equipamento.getDescricao());
-        if (equipamentoExistente.isPresent() && equipamentoExistente.get().equals(equipamento)) {
+        if (equipamentoExistente.isPresent() && !equipamentoExistente.get().equals(equipamento)) {
         	throw new NegocioException(String.format("O equipamento de descrição '%s' já existe.", equipamento.getDescricao()));
         }
-        
         return equipamentoRepository.save(equipamento);
     }
 
@@ -51,10 +49,12 @@ public class EquipamentoService {
     
     @Transactional
     public void inserirArquivo(Long equipamentoId, File file) {
+    	System.out.println("Entrei no service de inserir o arquivo");
     	Equipamento equipamento = buscar(equipamentoId);
     	fileStorageService.armazenar(file);
     	equipamento.setNomeArquivo(file.getNomeArquivo());
     	equipamentoRepository.save(equipamento);
+    	System.out.println("Tudo OK");
     }
     
     @Transactional

@@ -14,7 +14,9 @@ public class EquipamentoDisassembler {
     private ModelMapper modelMapper;
 
     public Equipamento toDomainObject(EquipamentoInputDTO equipamentoInput) {
-        return modelMapper.map(equipamentoInput, Equipamento.class);
+    	Equipamento equip = modelMapper.map(equipamentoInput, Equipamento.class);
+    	equip.setId(null);
+        return equip;
     }
 
     public void copyToDomainObject(EquipamentoInputDTO equipamentoInput, Equipamento equipamento) {
