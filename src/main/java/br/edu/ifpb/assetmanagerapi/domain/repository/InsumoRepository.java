@@ -4,12 +4,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
+import br.edu.ifpb.assetmanagerapi.domain.model.Insumo;
 import br.edu.ifpb.assetmanagerapi.infrastructure.repository.CustomJpaRepository;
 
 @Repository
-public interface CategoriaRepository extends CustomJpaRepository<Categoria, Long> {
-
-	Optional<Categoria> findByNome(String nome);
+public interface InsumoRepository extends CustomJpaRepository<Insumo, Long> {
 	
+	Optional<Insumo> findByNome(String nome);
+
 }

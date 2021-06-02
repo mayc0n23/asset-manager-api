@@ -52,6 +52,7 @@ public class CategoriaController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public CategoriaDTO cadastrar(@RequestBody @Valid CategoriaInputDTO categoriaInput) {
 		return categoriaAssembler.toDTO(categoriaService.salvar(categoriaDisassembler.toDomainObject(categoriaInput)));
 	}

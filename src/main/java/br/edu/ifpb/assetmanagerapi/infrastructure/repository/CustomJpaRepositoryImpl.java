@@ -1,4 +1,4 @@
-package br.edu.ifpb.assetmanagerapi.domain.repository;
+package br.edu.ifpb.assetmanagerapi.infrastructure.repository;
 
 import javax.persistence.EntityManager;
 

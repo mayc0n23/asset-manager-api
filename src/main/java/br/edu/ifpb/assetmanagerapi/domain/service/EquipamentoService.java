@@ -2,6 +2,7 @@ package br.edu.ifpb.assetmanagerapi.domain.service;
 
 import br.edu.ifpb.assetmanagerapi.domain.exception.EquipamentoNaoEncontradoException;
 import br.edu.ifpb.assetmanagerapi.domain.exception.NegocioException;
+import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
 import br.edu.ifpb.assetmanagerapi.domain.repository.EquipamentoRepository;
 import br.edu.ifpb.assetmanagerapi.domain.service.FileStorageService.File;
@@ -22,6 +23,9 @@ public class EquipamentoService {
     
     @Autowired
     private FileStorageService fileStorageService;
+    
+    @Autowired
+    private CategoriaService categoriaService;
 
     @Transactional
     public Equipamento salvar(Equipamento equipamento) {
@@ -30,6 +34,8 @@ public class EquipamentoService {
         if (equipamentoExistente.isPresent() && !equipamentoExistente.get().equals(equipamento)) {
         	throw new NegocioException(String.format("O equipamento de descrição '%s' já existe.", equipamento.getDescricao()));
         }
+        Categoria categoria = categoriaService.buscar(equipamento.getCategoria().getId());
+        equipamento.setCategoria(categoria);
         return equipamentoRepository.save(equipamento);
     }
 
