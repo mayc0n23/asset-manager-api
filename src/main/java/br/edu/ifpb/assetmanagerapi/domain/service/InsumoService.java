@@ -2,6 +2,7 @@ package br.edu.ifpb.assetmanagerapi.domain.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,11 @@ public class InsumoService {
 	}
 	
 	public List<Insumo> listar() {
-		return insumoRepository.findAll();
+		return insumoRepository
+				.findAll()
+				.stream()
+				.filter(i -> i.isVisivel())
+				.collect(Collectors.toList());
 	}
 	
 	@Transactional
