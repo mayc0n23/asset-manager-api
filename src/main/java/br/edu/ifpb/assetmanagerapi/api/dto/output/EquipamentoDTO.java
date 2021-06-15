@@ -27,5 +27,5 @@ public class EquipamentoDTO {
 
     private EstadoConservacao estadoConservacao;
 
-    private Long categoriaId;
+    private CategoriaDTO categoria;
 }
