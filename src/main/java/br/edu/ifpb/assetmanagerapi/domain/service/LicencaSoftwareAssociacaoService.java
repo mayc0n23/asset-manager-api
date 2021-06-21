@@ -32,14 +32,19 @@ public class LicencaSoftwareAssociacaoService {
 		if (!equipamento.getCategoria().getTipoCategoria().equals(TipoCategoria.HARDWARE)) {
 			throw new NegocioException("O equipamento tem que ser de HARDWARE");
 		}
-		licenca.getEquipamentosAssociados().add(equipamento);
+		if (licenca.getQuantidadeUsada() < licenca.getMaximoAtivacoes()) {
+			licenca.getEquipamentosAssociados().add(equipamento);
+			licenca.setQuantidadeUsada(licenca.getQuantidadeUsada() + 1);
+		} else {
+			throw new NegocioException("O limite maximo de ativações já foi alcançado");
+		}
 	}
 	
 	@Transactional
 	public void desassociar(Long licencaSoftwareId, Long equipamentoId) {
 		LicencaSoftware licenca = licencaSoftwareService.buscar(licencaSoftwareId);
 		Equipamento equipamento = equipamentoService.buscar(equipamentoId);
-		licenca.getEquipamentosAssociados().remove(equipamento);
+		if (licenca.getEquipamentosAssociados().remove(equipamento)) licenca.setQuantidadeUsada(licenca.getQuantidadeUsada() - 1);
 	}
 	
 }

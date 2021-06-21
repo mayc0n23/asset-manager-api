@@ -35,7 +35,7 @@ public class LicencaSoftwareControllerTests {
 	
 	private final String url = "http://localhost:8081/licencas-software";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQwMDM4NjcsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiZDkwMWJkYWItYjQ0OC00M2E2LThmODItOTEwNDFhMWQ5YzgxIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.XhZqNhE7Kg16odx860-7WVU9_gAVDuJxX6XsvWYF4S4";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQzNDI5ODgsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNDgzZWZhZjUtNjc4Yy00OTg3LTgwODktOTk4NmM2YzQxNDJiIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.tntPeavHvzQUUFwlfDy-AMHciLgiexDNuJ_1dkgqduw";
 	
 	@Autowired
 	private MockMvc mockMvc;
