@@ -1,6 +1,5 @@
 package br.edu.ifpb.assetmanagerapi.integration;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -35,7 +34,7 @@ public class LicencaSoftwareControllerTests {
 	
 	private final String url = "http://localhost:8081/licencas-software";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQzNDI5ODgsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNDgzZWZhZjUtNjc4Yy00OTg3LTgwODktOTk4NmM2YzQxNDJiIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.tntPeavHvzQUUFwlfDy-AMHciLgiexDNuJ_1dkgqduw";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ1MDk3MjYsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiMzQxMTEwZTEtZTFkZC00Mzk4LWJhZmEtNWUyMjRiZDRkNjFhIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.LpgCPOBZIATRdpuPsjLR0zqO8N0pCWoGAee26kW_eMw";
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -304,7 +303,7 @@ public class LicencaSoftwareControllerTests {
 	void desassociar() throws Exception {
 		AssociacaoLicencaSoftwareInputDTO associacao = new AssociacaoLicencaSoftwareInputDTO();
 		associacao.setEquipamentoId(equipamentoCadastrado.getId());
-		mockMvc.perform(delete(url + "/" + licencaCadastrada.getId() + "/desassociar")
+		mockMvc.perform(put(url + "/" + licencaCadastrada.getId() + "/desassociar")
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(asJsonString(associacao)))

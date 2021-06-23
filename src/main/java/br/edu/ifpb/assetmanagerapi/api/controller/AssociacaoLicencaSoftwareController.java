@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,7 +42,7 @@ public class AssociacaoLicencaSoftwareController {
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@DeleteMapping("/desassociar")
+	@PutMapping("/desassociar")
 	public void desassociar(@PathVariable Long licencaSoftwareId, @RequestBody @Valid AssociacaoLicencaSoftwareInputDTO associacao) {
 		licencaSoftwareAssociacaoService.desassociar(licencaSoftwareId, associacao.getEquipamentoId());
 	}
