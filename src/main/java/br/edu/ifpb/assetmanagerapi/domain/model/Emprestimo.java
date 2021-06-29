@@ -20,6 +20,8 @@ public class Emprestimo extends Saida {
 	@Column(nullable = false)
 	private LocalDateTime dataPrevistaRetorno;
 	
+	
+	@Column(nullable = true)
 	private LocalDateTime dataRetorno;
 	
 	@Column(nullable = false)
