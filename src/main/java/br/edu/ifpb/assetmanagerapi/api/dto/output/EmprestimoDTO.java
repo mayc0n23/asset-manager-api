@@ -28,4 +28,10 @@ public class EmprestimoDTO {
 	
 	private EquipamentoDTO equipamento;
 	
+	private SetorDTO setor;
+	
+	private ServidorDTO expedidor;
+	
+	private ServidorDTO solicitante;
+	
 }
