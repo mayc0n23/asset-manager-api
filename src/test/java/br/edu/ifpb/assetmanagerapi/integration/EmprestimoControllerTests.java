@@ -23,15 +23,19 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import br.edu.ifpb.assetmanagerapi.api.dto.input.EmprestimoInputDTO;
+import br.edu.ifpb.assetmanagerapi.api.dto.input.EquipamentoIdInputDTO;
+import br.edu.ifpb.assetmanagerapi.api.dto.input.SetorIdInputDTO;
 import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
 import br.edu.ifpb.assetmanagerapi.domain.model.Emprestimo;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
 import br.edu.ifpb.assetmanagerapi.domain.model.EstadoConservacao;
+import br.edu.ifpb.assetmanagerapi.domain.model.Setor;
 import br.edu.ifpb.assetmanagerapi.domain.model.StatusEmprestimo;
 import br.edu.ifpb.assetmanagerapi.domain.model.TipoCategoria;
 import br.edu.ifpb.assetmanagerapi.domain.repository.CategoriaRepository;
 import br.edu.ifpb.assetmanagerapi.domain.repository.EmprestimoRepository;
 import br.edu.ifpb.assetmanagerapi.domain.repository.EquipamentoRepository;
+import br.edu.ifpb.assetmanagerapi.domain.repository.SetorRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,7 +43,7 @@ public class EmprestimoControllerTests {
 	
 	private final String url = "http://localhost:8081/emprestimos";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUwMzY1NDgsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNzRjY2U4OGQtOGI4ZS00YzI4LWEyNTItMDZlYmNjODY1NTFmIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.nTrTmHzbvVkZ52C0G4nulaUAvQb7k9Hs-iF75ArJzu4";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUxODMwMDQsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiMGE3OGI1ZTQtYzI3MC00ODY5LWE2MTAtNzcyODU0NDhiYzMxIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.8cm_BWawXaz5NrduGqu-RnUdc1wfUgWINjOmReyR8sA";
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -53,11 +57,16 @@ public class EmprestimoControllerTests {
 	@Autowired
 	private EmprestimoRepository emprestimoRepository;
 	
+	@Autowired
+	private SetorRepository setorRepository;
+	
 	private Equipamento equipamentoCadastrado;
 	
 	private Categoria categoriaCadastrada;
 	
 	private Emprestimo emprestimoCadastrado;
+	
+	private Setor setorCadastrado;
 	
 	@BeforeEach
 	void setUp() {
@@ -76,6 +85,11 @@ public class EmprestimoControllerTests {
 		equipamentoCadastrado.setCategoria(categoriaCadastrada);
 		equipamentoRepository.save(equipamentoCadastrado);
 		
+		setorCadastrado = new Setor();
+		setorCadastrado.setNome("CTI");
+		setorCadastrado.setSigla("CTI");
+		setorRepository.save(setorCadastrado);
+		
 		emprestimoCadastrado = new Emprestimo();
 		emprestimoCadastrado.setStatus(StatusEmprestimo.EMPRESTADO);
 		emprestimoCadastrado.setDataPrevistaRetorno(LocalDateTime.now());
@@ -83,12 +97,14 @@ public class EmprestimoControllerTests {
 		emprestimoCadastrado.setDataSaida(LocalDateTime.now());
 		emprestimoCadastrado.setLinkChamadoSuap("link");
 		emprestimoCadastrado.setEquipamento(equipamentoCadastrado);
+		emprestimoCadastrado.setSetor(setorCadastrado);
 		emprestimoRepository.save(emprestimoCadastrado);
 	}
 	
 	@AfterEach
 	void tearDown() {
 		emprestimoRepository.deleteAll();
+		setorRepository.delete(setorCadastrado);
 		equipamentoRepository.delete(equipamentoCadastrado);
 		categoriaRepository.delete(categoriaCadastrada);
 	}
@@ -120,10 +136,15 @@ public class EmprestimoControllerTests {
 	@Test
 	@DisplayName("Cadastrando um emprestimo com os dados corretos")
 	void cadastrar() throws Exception {
+		EquipamentoIdInputDTO equipamento = new EquipamentoIdInputDTO();
+		equipamento.setId(equipamentoCadastrado.getId());
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
 		EmprestimoInputDTO emprestimo = new EmprestimoInputDTO();
 		emprestimo.setDataPrevistaRetorno(LocalDateTime.now().minusDays(2));
-		emprestimo.setEquipamentoId(equipamentoCadastrado.getId());
+		emprestimo.setEquipamento(equipamento);
 		emprestimo.setStatus(StatusEmprestimo.EMPRESTADO);
+		emprestimo.setSetor(setor);
 		mockMvc.perform(post(url)
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -134,8 +155,10 @@ public class EmprestimoControllerTests {
 	@Test
 	@DisplayName("Cadastrando um emprestimo faltando dados")
 	void cadastrarFaltandoDados() throws Exception {
+		EquipamentoIdInputDTO equipamento = new EquipamentoIdInputDTO();
+		equipamento.setId(equipamentoCadastrado.getId());
 		EmprestimoInputDTO emprestimo = new EmprestimoInputDTO();
-		emprestimo.setEquipamentoId(equipamentoCadastrado.getId());
+		emprestimo.setEquipamento(equipamento);
 		emprestimo.setDataPrevistaRetorno(LocalDateTime.now());
 		emprestimo.setLinkChamadoSuap("linkkk");
 		mockMvc.perform(post(url)
@@ -148,11 +171,16 @@ public class EmprestimoControllerTests {
 	@Test
 	@DisplayName("Cadastrando um emprestimo com equipamento inexistente")
 	void cadastrarComEquipamentoInexistente() throws Exception {
+		EquipamentoIdInputDTO equipamento = new EquipamentoIdInputDTO();
+		equipamento.setId(1500L);
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
 		EmprestimoInputDTO emprestimo = new EmprestimoInputDTO();
 		emprestimo.setDataPrevistaRetorno(LocalDateTime.now());
-		emprestimo.setEquipamentoId(1500L);
+		emprestimo.setEquipamento(equipamento);
 		emprestimo.setLinkChamadoSuap("linkkk");
 		emprestimo.setStatus(StatusEmprestimo.EMPRESTADO);
+		emprestimo.setSetor(setor);
 		mockMvc.perform(post(url)
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -163,12 +191,17 @@ public class EmprestimoControllerTests {
 	@Test
 	@DisplayName("Editando um emprestimo")
 	void editar() throws Exception {
+		EquipamentoIdInputDTO equipamento = new EquipamentoIdInputDTO();
+		equipamento.setId(equipamentoCadastrado.getId());
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
 		EmprestimoInputDTO emprestimo = new EmprestimoInputDTO();
 		emprestimo.setDataPrevistaRetorno(LocalDateTime.now());
-		emprestimo.setEquipamentoId(equipamentoCadastrado.getId());
+		emprestimo.setEquipamento(equipamento);
 		emprestimo.setDataRetorno(LocalDateTime.now());
 		emprestimo.setLinkChamadoSuap("ma oe");
 		emprestimo.setStatus(StatusEmprestimo.DEVOLVIDO);
+		emprestimo.setSetor(setor);
 		mockMvc.perform(put(url + "/" + emprestimoCadastrado.getId())
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)

@@ -11,6 +11,7 @@ import br.edu.ifpb.assetmanagerapi.domain.exception.EmprestimoNaoEncontradoExcep
 import br.edu.ifpb.assetmanagerapi.domain.exception.NegocioException;
 import br.edu.ifpb.assetmanagerapi.domain.model.Emprestimo;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
+import br.edu.ifpb.assetmanagerapi.domain.model.Setor;
 import br.edu.ifpb.assetmanagerapi.domain.repository.EmprestimoRepository;
 
 @Service
@@ -22,10 +23,15 @@ public class EmprestimoService {
 	@Autowired
 	private EquipamentoService equipamentoService;
 	
+	@Autowired
+	private SetorService setorService;
+	
 	@Transactional
 	public Emprestimo salvar(Emprestimo emprestimo) {
 		Equipamento equipamento = equipamentoService.buscar(emprestimo.getEquipamento().getId());
 		emprestimo.setEquipamento(equipamento);
+		Setor setor = setorService.buscar(emprestimo.getSetor().getId());
+		emprestimo.setSetor(setor);
 		return emprestimoRepository.save(emprestimo);
 	}
 	
