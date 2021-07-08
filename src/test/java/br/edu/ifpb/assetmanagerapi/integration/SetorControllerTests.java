@@ -27,7 +27,7 @@ public class SetorControllerTests {
 	
 	private final String url = "http://localhost:8081/setores";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ2NzIxNjYsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNDI3ZDc2ZmYtNDQ5MC00MDc1LTlkNmQtNDE0Nzg5NWRiNGY3IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.buDPf4Wtq8LOBpNtdJiddQQjNxLpe_-5vY6xuiR3vmU";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjU3NDEwMzEsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiZWQ0YTdiMDItOTVjZi00NWE3LWI2YzctZTlmNTBjNWExZWEwIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.J9gv8-Ney0-ZM4VnLFMalzcfu6PkfdnS61z6mlhXgUk";
 	
 	@Autowired
 	private MockMvc mockMvc;

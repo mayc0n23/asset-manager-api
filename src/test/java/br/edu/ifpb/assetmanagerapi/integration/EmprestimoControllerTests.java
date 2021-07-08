@@ -43,7 +43,7 @@ public class EmprestimoControllerTests {
 	
 	private final String url = "http://localhost:8081/emprestimos";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUxODMwMDQsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiMGE3OGI1ZTQtYzI3MC00ODY5LWE2MTAtNzcyODU0NDhiYzMxIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.8cm_BWawXaz5NrduGqu-RnUdc1wfUgWINjOmReyR8sA";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjU3NDEwMzEsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiZWQ0YTdiMDItOTVjZi00NWE3LWI2YzctZTlmNTBjNWExZWEwIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.J9gv8-Ney0-ZM4VnLFMalzcfu6PkfdnS61z6mlhXgUk";
 	
 	@Autowired
 	private MockMvc mockMvc;
