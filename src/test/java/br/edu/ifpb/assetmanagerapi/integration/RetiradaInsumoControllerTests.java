@@ -5,8 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,28 +19,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import br.edu.ifpb.assetmanagerapi.api.dto.input.EntradaInsumoInputDTO;
+import br.edu.ifpb.assetmanagerapi.api.dto.input.RetiradaInsumoInputDTO;
+import br.edu.ifpb.assetmanagerapi.api.dto.input.SetorIdInputDTO;
 import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
-import br.edu.ifpb.assetmanagerapi.domain.model.EntradaInsumo;
 import br.edu.ifpb.assetmanagerapi.domain.model.Insumo;
+import br.edu.ifpb.assetmanagerapi.domain.model.RetiradaInsumo;
+import br.edu.ifpb.assetmanagerapi.domain.model.Setor;
 import br.edu.ifpb.assetmanagerapi.domain.model.TipoCategoria;
 import br.edu.ifpb.assetmanagerapi.domain.repository.CategoriaRepository;
-import br.edu.ifpb.assetmanagerapi.domain.repository.EntradaInsumoRepository;
 import br.edu.ifpb.assetmanagerapi.domain.repository.InsumoRepository;
+import br.edu.ifpb.assetmanagerapi.domain.repository.RetiradaInsumoRepository;
+import br.edu.ifpb.assetmanagerapi.domain.repository.SetorRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EntradaInsumoControllerTests {
-
+public class RetiradaInsumoControllerTests {
+	
 	private final String initialUrl = "http://localhost:8081/insumos/";
 
-	private final String finalUrl = "/entradas/";
-
+	private final String finalUrl = "/retiradas/";
+	
 	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjU5MTIxMjksInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiM2RjY2E4YWEtY2RlMi00NGM2LWJkMTAtYzQzYjM2NTY0ZDdiIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.YB7aijaSZkHqSlJ8yyD767M127uu59R9d0hh7msltoI";
-
+	
 	@Autowired
 	private MockMvc mockMvc;
-
+	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
@@ -50,13 +51,18 @@ public class EntradaInsumoControllerTests {
 	private InsumoRepository insumoRepository;
 	
 	@Autowired
-	private EntradaInsumoRepository entradaInsumoRepository;
-
+	private RetiradaInsumoRepository retiradaInsumoRepository;
+	
+	@Autowired
+	private SetorRepository setorRepository;
+	
 	private Categoria categoriaCadastrada;
 
 	private Insumo insumoCadastrado;
 	
-	private EntradaInsumo entradaCadastrada;
+	private RetiradaInsumo retiradaCadastrada;
+	
+	private Setor setorCadastrado;
 	
 	@BeforeEach
 	void setUp() {
@@ -75,23 +81,28 @@ public class EntradaInsumoControllerTests {
 		insumoCadastrado.setCategoria(categoriaCadastrada);
 		insumoRepository.save(insumoCadastrado);
 		
-		entradaCadastrada = new EntradaInsumo();
-		entradaCadastrada.setData(LocalDateTime.now());
-		entradaCadastrada.setDataValidade(LocalDateTime.now());
-		entradaCadastrada.setQuantidade(20);
-		entradaCadastrada.setInsumo(insumoCadastrado);
-		entradaInsumoRepository.save(entradaCadastrada);
+		setorCadastrado = new Setor();
+		setorCadastrado.setNome("Biblioteca");
+		setorCadastrado.setSigla("BBT");
+		setorRepository.save(setorCadastrado);
+		
+		retiradaCadastrada = new RetiradaInsumo();
+		retiradaCadastrada.setSetor(setorCadastrado);
+		retiradaCadastrada.setInsumo(insumoCadastrado);
+		retiradaCadastrada.setQuantidade(3);
+		retiradaInsumoRepository.save(retiradaCadastrada);
 	}
 	
 	@AfterEach
 	void tearDown() {
-		entradaInsumoRepository.deleteAll();
+		retiradaInsumoRepository.deleteAll();
+		setorRepository.delete(setorCadastrado);
 		insumoRepository.delete(insumoCadastrado);
 		categoriaRepository.delete(categoriaCadastrada);
 	}
 	
 	@Test
-	@DisplayName("Listando as entradas de um insumo válido")
+	@DisplayName("Listando as retiradas de um insumo válido")
 	void listar() throws Exception {
 		mockMvc.perform(get(initialUrl + insumoCadastrado.getId() + finalUrl)
 				.header("Authorization", auth))
@@ -99,31 +110,31 @@ public class EntradaInsumoControllerTests {
 	}
 	
 	@Test
-	@DisplayName("Listando as entradas de um insumo inválido (error 404)")
-	void listarEntradaInsumoInvalido() throws Exception {
+	@DisplayName("Listando as retiradas de um insumo inválido (error 404)")
+	void listarRetiradaInsumoInvalido() throws Exception {
 		mockMvc.perform(get(initialUrl + new Long(82748) + finalUrl)
 				.header("Authorization", auth))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	@DisplayName("Buscando os dados da entrada de um insumo válido")
+	@DisplayName("Buscando os dados da retirada de um insumo válido")
 	void buscar() throws Exception {
-		mockMvc.perform(get(initialUrl + insumoCadastrado.getId() + finalUrl + entradaCadastrada.getId())
+		mockMvc.perform(get(initialUrl + insumoCadastrado.getId() + finalUrl + retiradaCadastrada.getId())
 				.header("Authorization", auth))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	@DisplayName("Buscando os dados da entrada de um insumo inválido")
-	void buscarEntradaInsumoInvalido() throws Exception {
-		mockMvc.perform(get(initialUrl + new Long(6347) + finalUrl + entradaCadastrada.getId())
+	@DisplayName("Buscando os dados da retirada de um insumo inválido")
+	void buscarRetiradaInsumoInvalido() throws Exception {
+		mockMvc.perform(get(initialUrl + new Long(6347) + finalUrl + retiradaCadastrada.getId())
 				.header("Authorization", auth))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	@DisplayName("Buscando os dados da entrada de um insumo válido e entrada inválida")
+	@DisplayName("Buscando os dados da retirada de um insumo válido e retirada inválida")
 	void buscarEntradaInvalido() throws Exception {
 		mockMvc.perform(get(initialUrl + insumoCadastrado.getId() + finalUrl + new Long(9532))
 				.header("Authorization", auth))
@@ -131,80 +142,97 @@ public class EntradaInsumoControllerTests {
 	}
 	
 	@Test
-	@DisplayName("Cadastrando uma nova entrada")
+	@DisplayName("Cadastrando uma nova retirada")
 	void cadastrar() throws Exception {
-		EntradaInsumoInputDTO entrada = new EntradaInsumoInputDTO();
-		entrada.setData(LocalDateTime.now());
-		entrada.setDataValidade(LocalDateTime.now());
-		entrada.setQuantidade(12);
+		RetiradaInsumoInputDTO retirada = new RetiradaInsumoInputDTO();
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
+		retirada.setSetor(setor);
+		retirada.setQuantidade(2);
 		mockMvc.perform(post(initialUrl + insumoCadastrado.getId() + finalUrl)
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content(asJsonString(entrada)))
+				.content(asJsonString(retirada)))
 				.andExpect(status().isCreated());
 	}
 	
 	@Test
-	@DisplayName("Cadastrando uma nova entrada com dados faltando (error 400)")
+	@DisplayName("Cadastrando uma nova retirada com dados faltando (error 400)")
 	void cadastrarFaltandoDados() throws Exception {
-		EntradaInsumoInputDTO entrada = new EntradaInsumoInputDTO();
-		entrada.setData(LocalDateTime.now());
-		entrada.setDataValidade(LocalDateTime.now());
+		RetiradaInsumoInputDTO retirada = new RetiradaInsumoInputDTO();
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
+		retirada.setSetor(setor);
 		mockMvc.perform(post(initialUrl + insumoCadastrado.getId() + finalUrl)
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content(asJsonString(entrada)))
+				.content(asJsonString(retirada)))
 				.andExpect(status().isBadRequest());
 	}
 	
 	@Test
-	@DisplayName("Cadastrando uma nova entrada em um insumo que n existe (error 404)")
+	@DisplayName("Cadastrando uma nova retirada em um insumo que n existe (error 404)")
 	void cadastrarEmInsumoInexistente() throws Exception {
-		EntradaInsumoInputDTO entrada = new EntradaInsumoInputDTO();
-		entrada.setData(LocalDateTime.now());
-		entrada.setDataValidade(LocalDateTime.now());
-		entrada.setQuantidade(12);
+		RetiradaInsumoInputDTO retirada = new RetiradaInsumoInputDTO();
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(setorCadastrado.getId());
+		retirada.setSetor(setor);
+		retirada.setQuantidade(2);
 		mockMvc.perform(post(initialUrl + new Long(5745) + finalUrl)
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content(asJsonString(entrada)))
+				.content(asJsonString(retirada)))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	@DisplayName("Deletando uma entrada cadastrada")
+	@DisplayName("Cadastrando uma nova retirada em um setor que n existe (error 404)")
+	void cadastrarEmSetorInexistente() throws Exception {
+		RetiradaInsumoInputDTO retirada = new RetiradaInsumoInputDTO();
+		SetorIdInputDTO setor = new SetorIdInputDTO();
+		setor.setId(new Long(6375));
+		retirada.setSetor(setor);
+		retirada.setQuantidade(2);
+		mockMvc.perform(post(initialUrl + insumoCadastrado.getId() + finalUrl)
+				.header("Authorization", auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(asJsonString(retirada)))
+				.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	@DisplayName("Deletando uma retirada cadastrada")
 	void deletar() throws Exception {
-		mockMvc.perform(delete(initialUrl + insumoCadastrado.getId() + finalUrl + entradaCadastrada.getId())
+		mockMvc.perform(delete(initialUrl + insumoCadastrado.getId() + finalUrl + retiradaCadastrada.getId())
 				.header("Authorization", auth))
 				.andExpect(status().isNoContent());
 	}
 	
 	@Test
-	@DisplayName("Deletando uma entrada inexistente (error 404)")
-	void deletarEntradaInexistente() throws Exception {
+	@DisplayName("Deletando uma retirada inexistente (error 404)")
+	void deletarRetiradaInexistente() throws Exception {
 		mockMvc.perform(delete(initialUrl + insumoCadastrado.getId() + finalUrl + new Long(8356))
 				.header("Authorization", auth))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	@DisplayName("Deletando uma entrada em um insumo inexistente (error 404)")
-	void deletarEntradaInsumoInexistente() throws Exception {
-		mockMvc.perform(delete(initialUrl + new Long(8356) + finalUrl + entradaCadastrada.getId())
+	@DisplayName("Deletando uma retirada em um insumo inexistente (error 404)")
+	void deletarRetiradaInsumoInexistente() throws Exception {
+		mockMvc.perform(delete(initialUrl + new Long(8356) + finalUrl + retiradaCadastrada.getId())
 				.header("Authorization", auth))
 				.andExpect(status().isNotFound());
 	}
 	
-	public static String asJsonString(EntradaInsumoInputDTO entrada) {
+	public static String asJsonString(RetiradaInsumoInputDTO retirada) {
 		try {
 			final ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.registerModule(new JavaTimeModule());
 			objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-			return objectMapper.writeValueAsString(entrada);
+			return objectMapper.writeValueAsString(retirada);
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
 	}
-	
 	
 }

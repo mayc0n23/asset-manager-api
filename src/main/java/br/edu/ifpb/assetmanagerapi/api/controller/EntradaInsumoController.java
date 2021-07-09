@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,22 +36,26 @@ public class EntradaInsumoController {
 	@Autowired
 	private EntradaInsumoDisassembler entradaInsumoDisassembler;
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping
 	public List<EntradaInsumoDTO> listar(@PathVariable Long insumoId) {
 		return entradaInsumoAssembler.toCollectionDTO(entradaInsumoService.listar(insumoId));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/{entradaId}")
 	public EntradaInsumoDTO buscar(@PathVariable Long insumoId, @PathVariable Long entradaId) {
 		return entradaInsumoAssembler.toDTO(entradaInsumoService.buscar(insumoId, entradaId));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EntradaInsumoDTO cadastrar(@PathVariable Long insumoId, @RequestBody @Valid EntradaInsumoInputDTO entrada) {
 		return entradaInsumoAssembler.toDTO(entradaInsumoService.salvar(insumoId, entradaInsumoDisassembler.toDomainObject(entrada)));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/{entradaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletar(@PathVariable Long insumoId, @PathVariable Long entradaId) {
