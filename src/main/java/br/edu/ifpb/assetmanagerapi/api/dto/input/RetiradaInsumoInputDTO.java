@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 public class RetiradaInsumoInputDTO {
 	
+	private Long insumoId;
+	
 	private String numeroChamadoSuap;
 	
 	private String linkChamadoSuap;
