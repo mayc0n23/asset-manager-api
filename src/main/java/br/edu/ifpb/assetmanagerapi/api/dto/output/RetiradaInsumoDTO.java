@@ -27,4 +27,6 @@ public class RetiradaInsumoDTO {
 	
 	private ServidorDTO solicitante;
 	
+	private float quantidade;
+	
 }

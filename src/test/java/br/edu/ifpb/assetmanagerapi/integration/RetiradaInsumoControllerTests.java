@@ -39,7 +39,7 @@ public class RetiradaInsumoControllerTests {
 
 	private final String finalUrl = "/retiradas/";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjU5MTIxMjksInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiM2RjY2E4YWEtY2RlMi00NGM2LWJkMTAtYzQzYjM2NTY0ZDdiIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.YB7aijaSZkHqSlJ8yyD767M127uu59R9d0hh7msltoI";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjYyNTg1NDIsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNjZmNTUzMjQtYzE1MC00MTI2LThjODEtYzQ0NTA3ZjczYmM3IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.zO1tnmtRFscFJzHNnLReZwl_G7VqP25cs5XA2AmCR9w";
 	
 	@Autowired
 	private MockMvc mockMvc;
