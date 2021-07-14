@@ -15,6 +15,8 @@ public class LicencaSoftwareDTO {
 	
 	private String chaveAtivacao;
 	
+	private boolean ativacoesInfinitas;
+	
 	private int maximoAtivacoes;
 	
 	private int quantidadeUsada;

@@ -32,7 +32,7 @@ public class LicencaSoftwareAssociacaoService {
 		if (!equipamento.getCategoria().getTipoCategoria().equals(TipoCategoria.HARDWARE)) {
 			throw new NegocioException("O equipamento tem que ser de HARDWARE");
 		}
-		if (licenca.getQuantidadeUsada() < licenca.getMaximoAtivacoes()) {
+		if (licenca.isAtivacoesInfinitas() || (licenca.getQuantidadeUsada() < licenca.getMaximoAtivacoes())) {
 			licenca.getEquipamentosAssociados().add(equipamento);
 			licenca.setQuantidadeUsada(licenca.getQuantidadeUsada() + 1);
 		} else {

@@ -36,8 +36,10 @@ public class LicencaSoftware {
 	@Column(nullable = false)
 	private String chaveAtivacao;
 	
-	@Column(nullable = false)
 	private int maximoAtivacoes;
+	
+	@Column(nullable = false)
+	private boolean ativacoesInfinitas;
 	
 	@Column(nullable = false)
 	private int quantidadeUsada = 0;

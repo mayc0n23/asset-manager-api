@@ -20,7 +20,9 @@ public class LicencaSoftwareInputDTO {
 	@NotBlank
 	private String chaveAtivacao;
 	
-	@Positive
+	@NotNull
+	private boolean ativacoesInfinitas;
+	
 	private int maximoAtivacoes;
 	
 	@NotNull

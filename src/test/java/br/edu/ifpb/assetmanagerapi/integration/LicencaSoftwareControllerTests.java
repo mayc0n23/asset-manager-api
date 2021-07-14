@@ -34,7 +34,7 @@ public class LicencaSoftwareControllerTests {
 	
 	private final String url = "http://localhost:8081/licencas-software";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ1MzEwNzYsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNzUyMGVmNWUtNjQ1Zi00YjhjLWEyNTYtYWQ5OWY3MTgxODBhIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.chSU45jtqS6fQXi4d_BAlF5NEMdpjQBEGSF0GwvwYLw";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjYzMzM4NzUsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiMjEyZDI1OGMtYzgzZS00ZjkxLThkOGEtMmJjNTA2OTAxNTE5IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0._U6_zwuJkCpLAewri479x1MRe4puq8KsEojQJAPpXmc";
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -83,6 +83,7 @@ public class LicencaSoftwareControllerTests {
 		licencaCadastrada.setCategoria(categoria);
 		licencaCadastrada.setChaveAtivacao("UHLK-08953");
 		licencaCadastrada.setMaximoAtivacoes(5);
+		licencaCadastrada.setAtivacoesInfinitas(false);
 		licencaCadastrada.setNumero(541);
 		licencaCadastrada.setQuantidadeUsada(1);
 		licencaCadastrada.setSoftware("Avast pirata");
@@ -161,7 +162,8 @@ public class LicencaSoftwareControllerTests {
 		LicencaSoftwareInputDTO licenca = new LicencaSoftwareInputDTO();
 		licenca.setCategoriaId(categoria.getId());
 		licenca.setChaveAtivacao("UHJL94864");
-		licenca.setMaximoAtivacoes(4);
+		//licenca.setMaximoAtivacoes(4);
+		licenca.setAtivacoesInfinitas(true);
 		licenca.setNumero(521);
 		licenca.setSoftware("AVG");
 		mockMvc.perform(post(url)
@@ -169,22 +171,6 @@ public class LicencaSoftwareControllerTests {
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(asJsonString(licenca)))
 				.andExpect(status().isCreated());
-	}
-	
-	@Test
-	@DisplayName("Cadastrando uma licença com o número maximo de ativações igual a 0")
-	void cadastrarComMaximoAtivacoesInvalido() throws Exception {
-		LicencaSoftwareInputDTO licenca = new LicencaSoftwareInputDTO();
-		licenca.setCategoriaId(categoria.getId());
-		licenca.setChaveAtivacao("UHJL94864");
-		licenca.setMaximoAtivacoes(0);
-		licenca.setNumero(521);
-		licenca.setSoftware("AVG");
-		mockMvc.perform(post(url)
-				.header("Authorization", auth)
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content(asJsonString(licenca)))
-				.andExpect(status().isBadRequest());
 	}
 	
 	@Test
@@ -231,7 +217,7 @@ public class LicencaSoftwareControllerTests {
 				.header("Authorization", auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(asJsonString(licenca)))
-				.andExpect(status().isBadRequest());
+				.andExpect(status().isNotFound());
 	}
 	
 	@Test
