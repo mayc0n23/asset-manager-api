@@ -29,6 +29,12 @@ public class ServicoDTO {
 	
 	private EquipamentoDTO equipamento;
 	
+	private ServidorDTO expedidor;
+	
+	private ServidorDTO solicitante;
+	
+	private SetorDTO setor;
+	
 	private List<InsumoDTO> insumos;
 	
 }

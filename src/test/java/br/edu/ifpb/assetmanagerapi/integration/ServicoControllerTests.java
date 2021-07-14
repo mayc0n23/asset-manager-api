@@ -50,7 +50,7 @@ public class ServicoControllerTests {
 	
 	private final String url = "http://localhost:8081/servicos";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjYyNTg1NDIsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNjZmNTUzMjQtYzE1MC00MTI2LThjODEtYzQ0NTA3ZjczYmM3IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.zO1tnmtRFscFJzHNnLReZwl_G7VqP25cs5XA2AmCR9w";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjYzMTA5NzAsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiNDFlODQ4MmEtZjgwNi00ZTZhLThmNGUtMGM5NzdmODYwMWY3IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.k5NshEc6hcXt9P37VUDe6pQevkZiUWdcqksyOQyVPMc";
 	
 	@Autowired
 	private MockMvc mockMvc;

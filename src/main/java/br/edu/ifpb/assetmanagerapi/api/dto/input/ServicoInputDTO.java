@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import br.edu.ifpb.assetmanagerapi.api.dto.output.ServidorDTO;
 import br.edu.ifpb.assetmanagerapi.domain.model.TipoServico;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,10 @@ public class ServicoInputDTO {
 	@Valid
 	@NotNull
 	private SetorIdInputDTO setor;
+	
+	private ServidorDTO expedidor;
+	
+	private ServidorDTO solicitante;
 	
 	@Valid
 	private List<RetiradaInsumoInputDTO> retiradas = new ArrayList<>();
