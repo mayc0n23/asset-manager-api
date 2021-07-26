@@ -14,6 +14,6 @@ public interface RetiradaInsumoRepository extends CustomJpaRepository<RetiradaIn
 	
 	Optional<RetiradaInsumo> findByIdAndInsumo(Long id, Insumo insumo);
 	
-	List<RetiradaInsumo> findByInsumo(Insumo insumo);
+	List<RetiradaInsumo> findByInsumoOrderByDataSaidaDesc(Insumo insumo);
 	
 }

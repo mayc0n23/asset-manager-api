@@ -52,7 +52,7 @@ public class RetiradaInsumoService {
 	
 	public List<RetiradaInsumo> listar(Long insumoId) {
 		Insumo insumo = insumoService.buscar(insumoId);
-		return retiradaInsumoRepository.findByInsumo(insumo);
+		return retiradaInsumoRepository.findByInsumoOrderByDataSaidaDesc(insumo);
 	}
 	
 	public RetiradaInsumo buscar(Long insumoId, Long retiradaId) {

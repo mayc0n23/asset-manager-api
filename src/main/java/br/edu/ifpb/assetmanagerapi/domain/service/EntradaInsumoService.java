@@ -38,7 +38,7 @@ public class EntradaInsumoService {
 	
 	public List<EntradaInsumo> listar(Long insumoId) {
 		Insumo insumo = insumoService.buscar(insumoId);
-		return entradaInsumoRepository.findByInsumo(insumo);
+		return entradaInsumoRepository.findByInsumoOrderByDataDesc(insumo);
 	}
 	
 	public EntradaInsumo buscar(Long insumoId, Long entradaId) {

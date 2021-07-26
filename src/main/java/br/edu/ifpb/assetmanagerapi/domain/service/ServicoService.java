@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,7 +63,7 @@ public class ServicoService {
 	}
 	
 	public List<Servico> listar() {
-		return servicoRepository.findAll();
+		return servicoRepository.findAll(Sort.by(Sort.Direction.DESC, "dataSaida"));
 	}
 	
 	public Servico buscar(Long servicoId) {
