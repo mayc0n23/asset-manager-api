@@ -14,4 +14,6 @@ public interface EntradaInsumoRepository extends JpaRepository<EntradaInsumo, Lo
 	
 	List<EntradaInsumo> findByInsumoOrderByDataDesc(Insumo insumo);
 	
+	List<EntradaInsumo> findTop20ByOrderByDataDesc();
+	
 }

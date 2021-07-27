@@ -16,7 +16,7 @@ public class DashboardControllerTests {
 	
 	private final String url = "http://localhost:8081/dashboard";
 	
-	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjczODA3NTksInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiZjRiMDJlNmEtYTA4ZS00NWVjLWFjOWYtNDk3OWFhZDZkYjA2IiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0._vWCTeUbjwnDnkLsddtpr9vmYGkIDSuZz4rAPNpbhok";
+	private final String auth = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjc0NjQwMTAsInVzZXJfbmFtZSI6ImFkbWluIiwianRpIjoiMjQxNmM0OGUtMTI0OC00NGIwLWE5YjEtMzA2MjgzMmNkYTIzIiwiY2xpZW50X2lkIjoiYXNzZXQtbWFuYWdlci1hcHAiLCJzY29wZSI6WyJXUklURSIsIlJFQUQiXX0.qG13GQJip_93GFCIP7itN-whjW7YJeHpuLmqX8F3Iro";
 	
 	@Autowired
 	private MockMvc mockMvc;

@@ -16,4 +16,6 @@ public interface RetiradaInsumoRepository extends CustomJpaRepository<RetiradaIn
 	
 	List<RetiradaInsumo> findByInsumoOrderByDataSaidaDesc(Insumo insumo);
 	
+	List<RetiradaInsumo> findTop20ByOrderByDataSaidaDesc();
+	
 }

@@ -13,4 +13,8 @@ public class DashboardDTO {
 	
 	private List<ServicoDTO> servicos;
 	
+	private List<EntradaInsumoDTO> entradasInsumos;
+	
+	private List<RetiradaInsumoDTO> retiradasInsumos;
+	
 }
