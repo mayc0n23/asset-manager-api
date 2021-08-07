@@ -1,5 +1,6 @@
 package br.edu.ifpb.assetmanagerapi.domain.service;
 
+import br.edu.ifpb.assetmanagerapi.api.dto.output.FileDTO;
 import br.edu.ifpb.assetmanagerapi.domain.exception.EquipamentoNaoEncontradoException;
 import br.edu.ifpb.assetmanagerapi.domain.exception.NegocioException;
 import br.edu.ifpb.assetmanagerapi.domain.model.Categoria;
@@ -59,6 +60,7 @@ public class EquipamentoService {
     	Equipamento equipamento = buscar(equipamentoId);
     	fileStorageService.armazenar(file);
     	equipamento.setNomeArquivo(file.getNomeArquivo());
+    	equipamento.setContentTypeArquivo(file.getContentType());
     	equipamentoRepository.save(equipamento);
     	System.out.println("Tudo OK");
     }
@@ -68,6 +70,7 @@ public class EquipamentoService {
     	Equipamento equipamento = buscar(equipamentoId);
     	fileStorageService.substituir(equipamento.getNomeArquivo(), file);
     	equipamento.setNomeArquivo(file.getNomeArquivo());
+    	equipamento.setContentTypeArquivo(file.getContentType());
     	equipamentoRepository.save(equipamento);
     }
     
@@ -76,12 +79,17 @@ public class EquipamentoService {
     	Equipamento equipamento = buscar(equipamentoId);
     	fileStorageService.remover(equipamento.getNomeArquivo());
     	equipamento.setNomeArquivo(null);
+    	equipamento.setContentTypeArquivo(null);
     	equipamentoRepository.save(equipamento);
     }
     
-    public InputStream recuperarArquivo(Long equipamentoId) {
+    public FileDTO recuperarArquivo(Long equipamentoId) {
     	Equipamento equipamento = buscar(equipamentoId);
-    	return fileStorageService.recuperar(equipamento.getNomeArquivo());
+    	InputStream inputStream = fileStorageService.recuperar(equipamento.getNomeArquivo());
+    	FileDTO file = new FileDTO();
+    	file.setContentType(equipamento.getContentTypeArquivo());
+    	file.setInputStream(inputStream);
+    	return file;
     }
     
 }

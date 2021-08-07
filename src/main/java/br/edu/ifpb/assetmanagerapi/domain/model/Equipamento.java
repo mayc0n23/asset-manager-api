@@ -40,4 +40,6 @@ public class Equipamento {
     private Categoria categoria;
     
     private String nomeArquivo;
+    
+    private String contentTypeArquivo;
 }

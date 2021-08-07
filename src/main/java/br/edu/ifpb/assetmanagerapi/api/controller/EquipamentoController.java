@@ -4,6 +4,7 @@ import br.edu.ifpb.assetmanagerapi.api.assembler.EquipamentoAssembler;
 import br.edu.ifpb.assetmanagerapi.api.disassembler.EquipamentoDisassembler;
 import br.edu.ifpb.assetmanagerapi.api.dto.input.EquipamentoInputDTO;
 import br.edu.ifpb.assetmanagerapi.api.dto.output.EquipamentoDTO;
+import br.edu.ifpb.assetmanagerapi.api.dto.output.FileDTO;
 import br.edu.ifpb.assetmanagerapi.domain.model.Equipamento;
 import br.edu.ifpb.assetmanagerapi.domain.service.EquipamentoService;
 import br.edu.ifpb.assetmanagerapi.domain.service.FileStorageService;
@@ -25,7 +26,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/equipamentos", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
+@RequestMapping(value = "/equipamentos")
 public class EquipamentoController {
 
     @Autowired
@@ -41,26 +42,26 @@ public class EquipamentoController {
     private FileStorageService fileStorageService;
     
     @PreAuthorize("isAuthenticated()")
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
     public List<EquipamentoDTO> listar() {
         return equipamentoAssembler.toCollectionDTO(equipamentoService.listar());
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{equipamentoId}")
+    @GetMapping(value = "/{equipamentoId}", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
     public EquipamentoDTO buscar(@PathVariable Long equipamentoId) {
         return equipamentoAssembler.toDTO(equipamentoService.buscar(equipamentoId));
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
     @ResponseStatus(HttpStatus.CREATED)
     public EquipamentoDTO cadastrar(@RequestBody @Valid EquipamentoInputDTO equipamentoInput) {
         return equipamentoAssembler.toDTO(equipamentoService.salvar(equipamentoDisassembler.toDomainObject(equipamentoInput)));
     }
 
     @PreAuthorize("isAuthenticated")
-    @PutMapping("/{equipamentoId}")
+    @PutMapping(value = "/{equipamentoId}", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
     public EquipamentoDTO editar(@PathVariable Long equipamentoId, @RequestBody @Valid EquipamentoInputDTO equipamentoInput) {
         Equipamento equipamentoAtual = equipamentoService.buscar(equipamentoId);
         equipamentoDisassembler.copyToDomainObject(equipamentoInput, equipamentoAtual);
@@ -69,7 +70,7 @@ public class EquipamentoController {
     }
 
     @PreAuthorize("isAuthenticated")
-    @DeleteMapping("/{equipamentoId}")
+    @DeleteMapping(value = "/{equipamentoId}", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long equipamentoId) {
         equipamentoService.deletar(equipamentoId);
@@ -116,11 +117,12 @@ public class EquipamentoController {
     }
     
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{equipamentoId}/file")
-    public ResponseEntity<?> servirFoto(@PathVariable Long equipamentoId) {
-    	InputStream inputStream = equipamentoService.recuperarArquivo(equipamentoId);
+    @GetMapping(value = "/{equipamentoId}/file")
+    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long equipamentoId) {
+    	FileDTO file = equipamentoService.recuperarArquivo(equipamentoId);
     	return ResponseEntity.ok()
-    			.body(new InputStreamResource(inputStream));
+    			.contentType(MediaType.parseMediaType(file.getContentType()))
+    			.body(new InputStreamResource(file.getInputStream()));
     }
     
 }
