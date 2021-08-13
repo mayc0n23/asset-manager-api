@@ -42,7 +42,4 @@ public class Insumo {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Categoria categoria;
 	
-	@Column(nullable = false)
-	private boolean visivel = true;
-	
 }

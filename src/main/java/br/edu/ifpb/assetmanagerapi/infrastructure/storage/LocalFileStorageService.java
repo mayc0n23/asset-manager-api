@@ -15,7 +15,8 @@ public class LocalFileStorageService implements FileStorageService {
 	@Override
 	public InputStream recuperar(String nomeArquivo) {
 		try {
-			Path path = Paths.get("C:/Users/mayco/Desktop/files", nomeArquivo);
+			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			Path path = Paths.get(storagePath, nomeArquivo);
 			return Files.newInputStream(path);
 		} catch (IOException e) {
 			throw new StorageException("Não foi possivel recuperar o arquivo", e);
@@ -25,7 +26,8 @@ public class LocalFileStorageService implements FileStorageService {
 	@Override
 	public void armazenar(File file) {
 		try {
-			Path arquivoPath = Paths.get("C:/Users/mayco/Desktop/files", file.getNomeArquivo());
+			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			Path arquivoPath = Paths.get(storagePath, file.getNomeArquivo());
 			FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(arquivoPath));
 		} catch (IOException e) {
 			throw new StorageException("Não foi possivel armazenar o arquivo", e);
@@ -35,7 +37,8 @@ public class LocalFileStorageService implements FileStorageService {
 	@Override
 	public void remover(String nomeArquivo) {
 		try {
-			Path path = Paths.get("C:/Users/mayco/Desktop/files", nomeArquivo);
+			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			Path path = Paths.get(storagePath, nomeArquivo);
 			Files.deleteIfExists(path);
 		} catch (IOException e) {
 			throw new StorageException("Não foi possivel excluir o arquivo", e);

@@ -2,7 +2,6 @@ package br.edu.ifpb.assetmanagerapi.domain.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,17 +42,13 @@ public class InsumoService {
 	}
 	
 	public List<Insumo> listar() {
-		return insumoRepository
-				.findAll()
-				.stream()
-				.filter(i -> i.isVisivel())
-				.collect(Collectors.toList());
+		return insumoRepository.findAll();
 	}
 	
 	@Transactional
 	public void deletar(Long insumoId) {
 		Insumo insumo = buscar(insumoId);
-		insumo.setVisivel(false);
+		insumoRepository.delete(insumo);
 	}
 	
 	public void validarQuantidade(Insumo insumo) {
