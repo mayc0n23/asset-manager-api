@@ -1,5 +1,6 @@
 package br.edu.ifpb.assetmanagerapi.domain.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class ServicoService {
 		
 		retiradas
 			.forEach(retirada -> {
+				retirada.setDataSaida(LocalDateTime.now());
 				retiradasSalvas.add(retiradaInsumoService.salvar(retirada.getInsumo().getId(), retirada));
 		});
 		
