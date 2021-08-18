@@ -1,0 +1,10 @@
+br\edu\ifpb\assetmanagerapi\integration\CategoriaControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\EquipamentoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\SetorControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\RetiradaInsumoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\EntradaInsumoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\ServicoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\InsumoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\DashboardControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\EmprestimoControllerTests.class
+br\edu\ifpb\assetmanagerapi\integration\LicencaSoftwareControllerTests.class

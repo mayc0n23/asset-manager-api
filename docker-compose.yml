@@ -1,0 +1,29 @@
+version: "3.9"
+
+networks:
+  assetmanager-network:
+    driver: bridge
+
+services:
+  assetmanager-postgres:
+    image: postgres:12.8
+    environment:
+      POSTGRES_PASSWORD: "assetmanager"
+      POSTGRES_USER: "assetmanager"
+      POSTGRES_DB: "assetmanager"
+    ports:
+      - "5432:5432"
+    networks:
+      - assetmanager-network
+
+  assetmanager-api:
+    build: .
+    environment:
+      DB_HOST: assetmanager-postgres
+    ports:
+      - "8081:8081"
+    networks:
+      - assetmanager-network
+    depends_on:
+      - assetmanager-postgres
+      
