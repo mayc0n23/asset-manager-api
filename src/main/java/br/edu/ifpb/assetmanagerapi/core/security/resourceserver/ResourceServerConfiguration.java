@@ -47,7 +47,7 @@ public class ResourceServerConfiguration extends WebSecurityConfigurerAdapter {
 		
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOriginPattern("https://localhost:4200");
+		corsConfiguration.addAllowedOriginPattern("http://localhost:4200");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		

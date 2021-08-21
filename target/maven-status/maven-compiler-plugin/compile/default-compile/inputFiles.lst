@@ -64,6 +64,7 @@ C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manag
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\domain\model\Servico.java
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\api\disassembler\RetiradaInsumoDisassembler.java
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\domain\service\EntradaInsumoService.java
+C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\task\ValidacaoEmprestimosTask.java
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\domain\exception\EmprestimoNaoEncontradoException.java
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\api\controller\RetiradaInsumoController.java
 C:\Users\mayco\Documents\workspace-spring-tool-suite-4-4.7.1.RELEASE\asset-manager-api\src\main\java\br\edu\ifpb\assetmanagerapi\api\assembler\LicencaSoftwareAssembler.java

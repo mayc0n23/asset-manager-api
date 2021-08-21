@@ -16,6 +16,7 @@ public class LocalFileStorageService implements FileStorageService {
 	public InputStream recuperar(String nomeArquivo) {
 		try {
 			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			System.out.println("Recuperando arquivo do diretório: " + storagePath);
 			Path path = Paths.get(storagePath, nomeArquivo);
 			return Files.newInputStream(path);
 		} catch (IOException e) {
@@ -27,6 +28,7 @@ public class LocalFileStorageService implements FileStorageService {
 	public void armazenar(File file) {
 		try {
 			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			System.out.println("Armazenando arquivo no diretório: " + storagePath);
 			Path arquivoPath = Paths.get(storagePath, file.getNomeArquivo());
 			FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(arquivoPath));
 		} catch (IOException e) {
@@ -38,6 +40,7 @@ public class LocalFileStorageService implements FileStorageService {
 	public void remover(String nomeArquivo) {
 		try {
 			String storagePath = System.getenv("ASSET_MANAGER_LOCAL_STORAGE");
+			System.out.println("Removendo arquivo do diretório: " + storagePath);
 			Path path = Paths.get(storagePath, nomeArquivo);
 			Files.deleteIfExists(path);
 		} catch (IOException e) {

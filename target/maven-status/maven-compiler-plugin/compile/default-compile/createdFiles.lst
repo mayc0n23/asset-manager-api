@@ -72,6 +72,7 @@ br\edu\ifpb\assetmanagerapi\api\disassembler\LicencaSoftwareDisassembler.class
 br\edu\ifpb\assetmanagerapi\infrastructure\repository\CustomJpaRepository.class
 br\edu\ifpb\assetmanagerapi\domain\service\FileStorageService$File.class
 br\edu\ifpb\assetmanagerapi\domain\model\Setor.class
+br\edu\ifpb\assetmanagerapi\task\ValidacaoEmprestimosTask.class
 br\edu\ifpb\assetmanagerapi\api\disassembler\EmprestimoDisassembler.class
 br\edu\ifpb\assetmanagerapi\api\assembler\RetiradaInsumoAssembler.class
 br\edu\ifpb\assetmanagerapi\api\disassembler\EntradaInsumoDisassembler.class
